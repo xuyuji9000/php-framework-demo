@@ -1,0 +1,13 @@
+{
+    "name": "yogiman/php-framework-demo",
+    "authors": [
+        {
+            "name": "Karl Xu",
+            "email": "karl.yogi.xu@gmail.com"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^6.1",
+        "symfony/http-foundation": "^3.2"
+    }
+}
