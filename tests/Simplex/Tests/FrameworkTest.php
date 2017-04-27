@@ -39,4 +39,13 @@ class FrameworkTest extends TestCase
 
         return new Framework($matcher, $controllerResolver, $argumentResolver);
     }
+
+    public function testErrorHandling()
+    {
+        $framework = $this->getFrameworkForException(new \RuntimeException());
+
+        $response = $framework->handle(new Request());
+
+        $this->assertEquals(500, $response->getStatusCode());
+    }
 }
