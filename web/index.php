@@ -14,11 +14,16 @@ $context = new Routing\RequestContext();
 $context->fromRequest($request);
 $matcher = new Routing\Matcher\UrlMatcher($routes, $context);
 
-try {
-    $attributes = $matcher->match($request->getPathInfo());
+function render_template($request)
+{
     ob_start();
-    include(sprintf(__DIR__ . '/../src/pages/%s.php', $attributes['_route']));
-    $response = new Response(ob_get_clean());
+    include(sprintf(__DIR__ . '/../src/pages/%s.php', $request->attributes->all()['_route']));
+    return new Response(ob_get_clean());
+}
+
+try {
+    $request->attributes->add($matcher->match($request->getPathInfo()));
+    $response = call_user_func($request->attributes->get('_controller'), $request);
 } catch (Routing\Exception\ResourceNotFoundException $e) {
     $response = new Response('Not Found', 404);
 } catch (Exception $e) {
